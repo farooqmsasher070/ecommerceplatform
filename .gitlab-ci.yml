@@ -1,0 +1,60 @@
+stages:
+  - build
+  - docker
+  - deploy
+
+variables:
+  VERSION: $CI_COMMIT_SHORT_SHA
+  REGISTRY: $CI_REGISTRY_IMAGE
+
+# 🔨 BUILD STAGE
+build:
+  stage: build
+  image: maven:3.9.9-eclipse-temurin-17
+  script:
+    - mvn clean install -DskipTests
+  artifacts:
+    paths:
+      - user-service/target/*.jar
+      - order-service/target/*.jar
+      - payment-service/target/*.jar
+      - discovery-server/target/*.jar
+
+# 🐳 DOCKER BUILD + PUSH
+docker-build:
+  stage: docker
+  image: docker:24.0
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+    REGISTRY: $CI_REGISTRY_IMAGE
+  before_script:
+    - docker info
+    - echo $KUBECONFIG | base64 -d > kubeconfig
+    - export KUBECONFIG=$PWD/kubeconfig
+  script:
+    - echo "Building images..."
+
+    # User service
+    - docker build -t $REGISTRY/user-service:$VERSION -f user-service/Dockerfile .
+    - docker push $REGISTRY/user-service:$VERSION
+
+    # Order service
+   # - docker build -t $REGISTRY/order-service:$VERSION -f order-service/Dockerfile .
+   # - docker push $REGISTRY/order-service:$VERSION
+
+    # Discovery
+    - docker build -t $REGISTRY/discovery-server:$VERSION -f discovery-server/Dockerfile .
+    - docker push $REGISTRY/discovery-server:$VERSION
+
+# ☸️ DEPLOY
+deploy:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - echo "Deploying to Kubernetes..."
+
+    - kubectl set image deployment/user-service user=$REGISTRY/user-service:$VERSION -n ecommerce
+   # - kubectl set image deployment/order-service order=$REGISTRY/order-service:$VERSION -n ecommerce
+    - kubectl set image deployment/discovery discovery=$REGISTRY/discovery-server:$VERSION -n ecommerce
