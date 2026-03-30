@@ -16,8 +16,8 @@ build:
   artifacts:
     paths:
       - user-service/target/*.jar
-      - order-service/target/*.jar
-      - payment-service/target/*.jar
+ #     - order-service/target/*.jar
+  #    - payment-service/target/*.jar
       - discovery-server/target/*.jar
 
 # 🐳 DOCKER BUILD + PUSH
