@@ -17,7 +17,8 @@ spec:
     #    - name: gitlab-registry-secret
       containers:
         - name: config
-          image: config-server:1.0.1
+          image: config-server:latest
+          imagePullPolicy: Never
 
           ports:
             - containerPort: 8888

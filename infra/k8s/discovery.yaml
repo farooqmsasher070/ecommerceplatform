@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: discovery
-          image: discovery-server:1.0.0
+          image: discovery-server:latest
           imagePullPolicy: Never
        #   command: ["sh", "-c", "sleep 3600"]
           ports:

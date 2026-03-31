@@ -3,7 +3,7 @@
 set -e
 
 # 🔧 CONFIG
-VERSION=${1:-1.0.0}
+VERSION=${1:-1.0.1}
 
 PROJECT_ROOT="/home/farooq/IdeaProjects/ecommerceplatform"
 

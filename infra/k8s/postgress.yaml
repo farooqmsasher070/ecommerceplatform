@@ -16,6 +16,7 @@ spec:
       containers:
         - name: postgres
           image: postgres:15
+          imagePullPolicy: Never   # 👈 IMPORTANT
           ports:
             - containerPort: 5432
 
