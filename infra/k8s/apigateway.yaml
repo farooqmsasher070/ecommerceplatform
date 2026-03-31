@@ -4,7 +4,7 @@ metadata:
   name: gateway
   namespace: ecommerce
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: gateway
@@ -16,6 +16,7 @@ spec:
       containers:
         - name: gateway
           image: gateway:1.0.0
+          imagePullPolicy: Never
           ports:
             - containerPort: 8080
 ---
@@ -25,8 +26,9 @@ metadata:
   name: gateway
   namespace: ecommerce
 spec:
+  type: ClusterIP
   selector:
     app: gateway
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 8089

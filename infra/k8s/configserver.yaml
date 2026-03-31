@@ -13,12 +13,26 @@ spec:
       labels:
         app: config-server
     spec:
+    # imagePullSecrets:
+    #    - name: gitlab-registry-secret
       containers:
         - name: config
-          image: config-server:1.0.0
-          imagePullPolicy: Never
+          image: config-server:1.0.1
+
           ports:
             - containerPort: 8888
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: native   # 👈 CRITICAL FIX
+
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config   # 👈 IMPORTANT
+      volumes:
+        - name: config-volume
+          configMap:
+            name: app-config-files
+
 ---
 apiVersion: v1
 kind: Service

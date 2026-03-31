@@ -4,4 +4,4 @@ metadata:
   name: app-config
   namespace: ecommerce
 data:
-  SPRING_PROFILES_ACTIVE: "k8s"
+  SPRING_PROFILES_ACTIVE: "default"

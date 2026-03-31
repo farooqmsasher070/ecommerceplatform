@@ -2,15 +2,14 @@ server:
   port: 8888
 
 spring:
+  application:
+    name: config-server
+
+  profiles:
+    active: native   # 👈 IMPORTANT
+
   cloud:
     config:
-      enabled: false
       server:
-        git:
-          uri: git@github.com:farooqmsasher070/config-server.git
-          username: iamfarooq1@outlook.com
-          password: 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
-            # Optional: specify the default branch/label to use
-          default-label: master
-          skipValidation: true
-          basedir: /home/farooq/config-repo
+        native:
+          search-locations: file:/config/
