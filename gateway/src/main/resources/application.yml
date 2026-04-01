@@ -7,9 +7,14 @@ spring:
     gateway:
       routes:
         - id: user-service
-          uri: http://user-service:80
+          uri: http://user-service
           predicates:
             - Path=/api/**
+
+        - id: discovery
+          uri: http://discovery:8761
+          predicates:
+              - Path=/**
 eureka:
   client:
     service-url:

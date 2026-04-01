@@ -4,14 +4,14 @@ set -e
 
 # 🔧 CONFIG
 
-VERSION=${1:-1.0.0}
+VERSION="latest"
 BASE_DIR="/home/farooq/Desktop/ecommerceplatform"
 
 SERVICES=(
 "user-service"
-"gateway"
-"config-server"
-"discovery-server"
+#"gateway"
+#"config-server"
+#"discovery-server"
 )
 
 echo "🚀 Version: $VERSION"
@@ -37,7 +37,7 @@ JAR_FILE=$(ls $JAR_PATH/*.jar | head -n 1)
 
 if [ -z "$JAR_FILE" ]; then
 echo "❌ No JAR found for $SERVICE"
-exit 1
+#exit 1
 fi
 
 echo "✅ Found JAR: $JAR_FILE"
