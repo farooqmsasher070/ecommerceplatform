@@ -3,10 +3,15 @@ kind: ServiceMonitor
 metadata:
   name: ecommerce-monitor
   namespace: monitoring
+  labels:
+    release: monitoring
 spec:
+  namespaceSelector:
+    matchNames:
+      - ecommerce
   selector:
     matchLabels:
-      app:user-service
+      app: user-service   # ✅ FIXED (lowercase)
   endpoints:
     - port: http
       path: /actuator/prometheus
