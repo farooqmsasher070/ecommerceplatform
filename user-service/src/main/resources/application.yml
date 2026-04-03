@@ -5,16 +5,35 @@ spring:
   application:
     name: user-service
   profiles:
-    active: dev
+    active: default
+  datasource:
+    # JDBC URL format: jdbc:postgresql://<host>:<port>/<database_name>
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: myusername
+    password: mypassword
+    driver-class-name: org.postgresql.Driver
+
+    jpa:
+      hibernate:
+        # 'update' automatically creates/modifies tables based on entities
+        # 'none' or 'validate' is recommended for production
+        ddl-auto: update
+      show-sql: true # Logs SQL queries to the console
+      properties:
+        hibernate:
+          # Explicitly setting the dialect is optional but helps with specific Postgres features
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          format_sql: true # Pretty-prints the logged SQL
+
 
 
   config:
     import: "optional:configserver:http://config-server:8888"
 
-#eureka:
- # client:
-  #  service-url:
-   #   defaultZone: http://discovery:8761/eureka
+eureka:
+    client:
+      service-url:
+        defaultZone: http://localhost:8761/eureka
 
 management:
   endpoints:
